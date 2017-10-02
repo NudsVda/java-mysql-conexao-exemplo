@@ -6,6 +6,7 @@ public class PessoaPersistencia {
     private Connection connection;
 
     public PessoaPersistencia(MysqlConnector connector) {
+
         this.connection = connector.getConnection();
     }
 
@@ -16,9 +17,9 @@ public class PessoaPersistencia {
             statement.setString(1, nome);
             statement.setString(2, data);
             statement.setString(3, observacoes);
-            statement.executeLargeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Deu pau em inserir: " + e);
+            System.out.println("Deu pau em inserir: " + e.getMessage());
         }
     }
 
@@ -43,14 +44,16 @@ public class PessoaPersistencia {
             return resultSet;
     }
 
+
+
     public void delete(int id) {
         try {
-            String delete = "DELETE FROM pessoa WHERE id > ?";
+            String delete = "DELETE FROM pessoa WHERE id = ?";
             PreparedStatement statementdel = this.connection.prepareStatement(delete);
             statementdel.setInt(1,id);
             statementdel.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Deu pau ao remover: " + e);
+            System.out.println("Deu pau ao remover: " + e.getMessage());
         }
     }
 
